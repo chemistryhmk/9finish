@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Підсумковий тест: Органічна хімія 9 клас</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .test-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #131926;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: 1px solid #1e293b;
+        }
+        .slide { display: none; }
+        .slide.active { display: block; }
+        .meta { color: #38bdf8; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        h2 { font-size: 26px; line-height: 1.4; margin-bottom: 25px; font-weight: 700; }
+        .options-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .btn-opt {
+            background-color: #1e2640;
+            border: 2px solid #2e3a5f;
+            border-radius: 10px;
+            padding: 18px 22px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            color: #ffffff;
+            width: 100%;
+        }
+        .btn-opt:hover { background-color: #243054; border-color: #3b82f6; }
+        .btn-opt.selected { background-color: rgba(59, 130, 246, 0.25); border-color: #3b82f6; }
+        .btn-opt.correct { background-color: #16a34a !important; border-color: #22c55e !important; }
+        .btn-opt.wrong { background-color: #dc2626 !important; border-color: #ef4444 !important; }
+        
+        /* Для матриці відповідностей */
+        .match-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1e2640;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .match-btns { display: flex; gap: 8px; }
+        .m-btn {
+            background-color: #131926;
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .m-btn.active { background-color: #3b82f6; color: #fff; }
+        .m-btn.disabled { pointer-events: none; opacity: 0.6; }
+
+        .feedback {
+            background-color: rgba(30, 41, 59, 0.6);
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 15px;
+            font-size: 17px;
+            line-height: 1.5;
+            display: none;
+        }
+        .nav-panel { display: flex; justify-content: flex-end; margin-top: 25px; }
+        .btn-action {
+            background-color: #06b6d4;
+            color: #0b0f19;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-action:hover { background-color: #22d3ee; }
+        .center { text-align: center; padding: 30px 0; }
+    </style>
+</head>
+<body>
+
+<div class="test-container">
+
+    <div class="slide active" id="s1">
+        <div class="center">
+            <span class="meta">Підсумкова атестація</span>
+            <h1 style="font-size: 44px; color: #06b6d4; margin-bottom: 15px;">ОРГАНІЧНА ХІМІЯ</h1>
+            <p style="font-size: 20px; color: #94a3b8; margin-bottom: 35px;">Комплексний тест для учнів 9 класу (30 запитань)</p>
+            <button class="btn-action" onclick="go(2)">Почати тест →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s2">
+        <span class="meta">Запитання 1 з 30 (Один вибір)</span>
+        <h2>Який елемент є основою всіх органічних сполук?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, true, 2, 'Правильно! Органічна хімія вивчає сполуки Карбону.')">Карбон</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 2, 'Неправильно. Гідроген входить до більшості сполук, але не є основою ланцюгів.')">Гідроген</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 2, 'Неправильно. Оксиген є лише в оксигеновмісних речовинах.')">Оксиген</button>
+        </div>
+        <div class="feedback" id="f2"></div>
+        <div class="nav-panel"><button class="btn-action" id="b2" style="display:none;" onclick="go(3)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s3">
+        <span class="meta">Запитання 2 з 30 (Один вибір)</span>
+        <h2>Яку валентність виявляє Карбон в органічних сполуках?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 3, 'Неправильно. Валентність II характерна для неорганічного чадного газу.')">II</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 3, 'Правильно! У збудженому стані Карбон завжди чотиривалентний.')">IV</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 3, 'Неправильно. Карбон не буває шестивалентним.')">VI</button>
+        </div>
+        <div class="feedback" id="f3"></div>
+        <div class="nav-panel"><button class="btn-action" id="b3" style="display:none;" onclick="go(4)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s4">
+        <span class="meta">Запитання 3 з 30 (Один вибір)</span>
+        <h2>Вкажіть хімічну формулу метану:</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, true, 4, 'Правильно! CH₄ — найпростіший представник алканів.')">CH₄</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 4, 'Неправильно. Це формула етану.')">C₂H₆</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 4, 'Неправильно. Це формула етену.')">C₂H₄</button>
+        </div>
+        <div class="feedback" id="f4"></div>
+        <div class="nav-panel"><button class="btn-action" id="b4" style="display:none;" onclick="go(5)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s5">
+        <span class="meta">Запитання 4 з 30 (Один вибір)</span>
+        <h2>Який тип зв'язку переважає в молекулах органічних речовин?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 5, 'Неправильно. Йонний зв\'язок притаманний переважно солям.')">Йонний</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 5, 'Правильно! Сполуки утворені спільними електронними парами неметалів.')">Ковалентний</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 5, 'Неправильно. Металічний зв\'язок утворюється лише в металах.')">Металічний</button>
+        </div>
+        <div class="feedback" id="f5"></div>
+        <div class="nav-panel"><button class="btn-action" id="b5" style="display:none;" onclick="go(6)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s6">
+        <span class="meta">Запитання 5 з 30 (Один вибір)</span>
+        <h2>Який газ є основним компонентом природного газу?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 6, 'Неправильно. Пропан є в скрапленому газі, але не в природному.')">Пропан</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 6, 'Неправильно. Бутан є супутнім газом.')">Бутан</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 6, 'Правильно! Природний газ складається з метану на 80-98%.')">Метан</button>
+        </div>
+        <div class="feedback" id="f6"></div>
+        <div class="nav-panel"><button class="btn-action" id="b6" style="display:none;" onclick="go(7)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s7">
+        <span class="meta">Запитання 6 з 30 (Один вибір)</span>
+        <h2>Вкажіть формулу етанолу (медичного спирту):</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 7, 'Неправильно. Це метанол — смертельна отрута.')">CH₃OH</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 7, 'Правильно! C₂H₅OH — одноатомний спирт етанол.')">C₂H₅OH</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 7, 'Неправильно. Це гліцерол.')">C₃H₅(OH)₃</button>
+        </div>
+        <div class="feedback" id="f7"></div>
+        <div class="nav-panel"><button class="btn-action" id="b7" style="display:none;" onclick="go(8)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s8">
+        <span class="meta">Запитання 7 з 30 (Один вибір)</span>
+        <h2>До якого класу сполук належить гліцерол?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 8, 'Неправильно. Карбонові кислоти містять групу -COOH.')">Карбонові кислоти</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 8, 'Правильно! Гліцерол є трьохатомним спиртом.')">Багатоатомні спирти</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 8, 'Неправильно. Вуглеводи мають іншу структуру.')">Вуглеводи</button>
+        </div>
+        <div class="feedback" id="f8"></div>
+        <div class="nav-panel"><button class="btn-action" id="b8" style="display:none;" onclick="go(9)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s9">
+        <span class="meta">Запитання 8 з 30 (Один вибір)</span>
+        <h2>Яка характеристика описує реакцію горіння вуглеводнів?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, true, 9, 'Правильно! Реакція горіння відбувається з виділенням тепла (екзо-).')">Екзотермічна</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 9, 'Неправильно. Ендотермічні реакції поглинають енергію.')">Ендотермічна</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 9, 'Неправильно. Це реакція повного окиснення.')">Реакція заміщення</button>
+        </div>
+        <div class="feedback" id="f9"></div>
+        <div class="nav-panel"><button class="btn-action" id="b9" style="display:none;" onclick="go(10)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s10">
+        <span class="meta">Запитання 9 з 30 (Один вибір)</span>
+        <h2>Яка функціональна група міститься в карбонових кислотах?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 10, 'Неправильно. Це гідроксильна група спиртів.')">-OH</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 10, 'Правильно! -COOH — це карбоксильна група.')">-COOH</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 10, 'Неправильно. Це аміногрупа.')">-NH₂</button>
+        </div>
+        <div class="feedback" id="f10"></div>
+        <div class="nav-panel"><button class="btn-action" id="b10" style="display:none;" onclick="go(11)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s11">
+        <span class="meta">Запитання 10 з 30 (Один вибір)</span>
+        <h2>Яка тривіальна назва етанової кислоти?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 11, 'Неправильно. Мурашина — це метанова кислота.')">Мурашина</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 11, 'Правильно! Етанову кислоту називають оцтовою.')">Оцтова</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 11, 'Неправильно. Лимонна має складнішу структуру.')">Лимонна</button>
+        </div>
+        <div class="feedback" id="f11"></div>
+        <div class="nav-panel"><button class="btn-action" id="b11" style="display:none;" onclick="go(12)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s12">
+        <span class="meta">Запитання 11 з 30 (Один вибір)</span>
+        <h2>Який колір має лакмус у розчині оцтової кислоти?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 12, 'Неправильно. Синім лакмус стає в лугах.')">Синій</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 12, 'Правильно! Оцтова кислота дисоціює на іони Н+, тому лакмус червоніє.')">Червоний</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 12, 'Неправильно. Фіолетовий — нейтральне середовище.')">Фіолетовий</button>
+        </div>
+        <div class="feedback" id="f12"></div>
+        <div class="nav-panel"><button class="btn-action" id="b12" style="display:none;" onclick="go(13)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s13">
+        <span class="meta">Запитання 12 з 30 (Один вибір)</span>
+        <h2>До якого класу органічних сполук належить глюкоза?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 13, 'Неправильно. Жири є естерами гліцеролу.')">Жири</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 13, 'Неправильно. Білки побудовані з амінокислот.')">Білки</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 13, 'Правильно! Глюкоза — це моносахарид (вуглевод).')">Вуглеводи</button>
+        </div>
+        <div class="feedback" id="f13"></div>
+        <div class="nav-panel"><button class="btn-action" id="b13" style="display:none;" onclick="go(14)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s14">
+        <span class="meta">Запитання 13 з 30 (Один вибір)</span>
+        <h2>Яка речовина є природним полімером?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, true, 14, 'Правильно! Крохмаль — це полісахарид, що складається з залишків глюкози.')">Крохмаль</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 14, 'Неправильно. Глюкоза є мономером.')">Глюкоза</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 14, 'Неправильно. Сахароза — дисахарид.')">Сахароза</button>
+        </div>
+        <div class="feedback" id="f14"></div>
+        <div class="nav-panel"><button class="btn-action" id="b14" style="display:none;" onclick="go(15)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s15">
+        <span class="meta">Запитання 14 з 30 (Один вибір)</span>
+        <h2>За допомогою якого реактиву можна виявити крохмаль?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 15, 'Неправильно. Cu(OH)2 реагує на глюкозу.')">Купрум(II) гідроксид</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 15, 'Правильно! Йод дає з крохмалем яскраве синє забарвлення.')">Розчин йоду</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 15, 'Неправильно. Лакмус реагує на кислотність.')">Лакмус</button>
+        </div>
+        <div class="feedback" id="f15"></div>
+        <div class="nav-panel"><button class="btn-action" id="b15" style="display:none;" onclick="go(16)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s16">
+        <span class="meta">Запитання 15 з 30 (Один вибір)</span>
+        <h2>Які мономери утворюють молекули білків?</h2>
+        <div class="options-grid">
+            <button class="btn-opt" onclick="checkSingle(this, false, 16, 'Неправильно. Нуклеотиди будують ДНК та РНК.')">Нуклеотиди</button>
+            <button class="btn-opt" onclick="checkSingle(this, false, 16, 'Неправильно. Моносахариди будують складні вуглеводи.')">Моносахариди</button>
+            <button class="btn-opt" onclick="checkSingle(this, true, 16, 'Правильно! Білки — це поліпептидні ланцюги з амінокислот.')">Амінокислоти</button>
+        </div>
+        <div class="feedback" id="f16"></div>
+        <div class="nav-panel"><button class="btn-action" id="b16" style="display:none;" onclick="go(17)">Далі →</button></div>
+    </div>
+
+    <div class="slide" id="s17">
+        <span class="meta">Запитання 16 з 30 (Множинний вибір)</span>
+        <h2>Оберіть властивості, які характерні для метану (3 правильні):</h2>
+        <div class="options-grid" id="m17">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Газ без кольору і запаху</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Добре розчиняється у воді</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Легший за повітря</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Горить з утворенням CO₂ та H₂O</button>
+        </div>
+        <div class="feedback" id="f17">Пояснення: Метан — газ без кольору і запаху, нерозчинний у воді, легший за повітря. Він горить, виділяючи вуглекислий газ та воду.</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c17" onclick="checkMulti(17, [0,2,3])">Перевірити</button>
+            <button class="btn-action" id="b17" style="display:none;" onclick="go(18)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s18">
+        <span class="meta">Запитання 17 з 30 (Множинний вибір)</span>
+        <h2>Вкажіть насичені вуглеводні (алкани) (2 правильні):</h2>
+        <div class="options-grid" id="m18">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">C₂H₆ (етан)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">C₂H₄ (етен)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">C₃H₈ (пропан)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">C₂H₂ (етин)</button>
+        </div>
+        <div class="feedback" id="f18">Пояснення: Етан і пропан відповідають загальній формулі алканів (CnH2n+2).</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c18" onclick="checkMulti(18, [0,2])">Перевірити</button>
+            <button class="btn-action" id="b18" style="display:none;" onclick="go(19)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s19">
+        <span class="meta">Запитання 18 з 30 (Множинний вибір)</span>
+        <h2>З якими речовинами реагує ненасичений етен (етилен)? (2 правильні):</h2>
+        <div class="options-grid" id="m19">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Водень (H₂)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Азот (N₂)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Бромна вода (Br₂)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Гелій (He)</button>
+        </div>
+        <div class="feedback" id="f19">Пояснення: Через наявність подвійного зв'язку етен легко вступає в реакції приєднання з воднем та бромом.</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c19" onclick="checkMulti(19, [0,2])">Перевірити</button>
+            <button class="btn-action" id="b19" style="display:none;" onclick="go(20)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s20">
+        <span class="meta">Запитання 19 з 30 (Множинний вибір)</span>
+        <h2>Які реакції характерні для алканів? (2 правильні):</h2>
+        <div class="options-grid" id="m20">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Реакції приєднання</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Реакції заміщення (галогенування)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Горіння (окиснення)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Полімеризація</button>
+        </div>
+        <div class="feedback" id="f20">Пояснення: Алкани є насиченими сполуками, тому для них характерні реакції заміщення на світлі та горіння.</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c20" onclick="checkMulti(20, [1,2])">Перевірити</button>
+            <button class="btn-action" id="b20" style="display:none;" onclick="go(21)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s21">
+        <span class="meta">Запитання 20 з 30 (Множинний вибір)</span>
+        <h2>Оберіть сполуки, які добре розчиняються у воді (3 правильні):</h2>
+        <div class="options-grid" id="m21">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Етанол</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Метан</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Гліцерол</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Оцтова кислота</button>
+        </div>
+        <div class="feedback" id="f21">Пояснення: Спирти та оцтова кислота утворюють водневі зв'язки з молекулами води, тому розчиняються дуже добре.</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c21" onclick="checkMulti(21, [0,2,3])">Перевірити</button>
+            <button class="btn-action" id="b21" style="display:none;" onclick="go(22)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s22">
+        <span class="meta">Запитання 21 з 30 (Множинний вибір)</span>
+        <h2>З якими речовинами реагує оцтова кислота? (3 правильні):</h2>
+        <div class="options-grid" id="m22">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Активні метали (напр. Mg)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Луги (напр. NaOH)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Золото (Au)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Солі слабших кислот (Na₂CO₃)</button>
+        </div>
+        <div class="feedback" id="f22">Пояснення: Оцтова кислота виявляє загальні властивості кислот: реагує з металами до водню, основами та карбонатами.</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c22" onclick="checkMulti(22, [0,1,3])">Перевірити</button>
+            <button class="btn-action" id="b22" style="display:none;" onclick="go(23)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s23">
+        <span class="meta">Запитання 22 з 30 (Множинний вибір)</span>
+        <h2>З яких залишків молекул побудований будь-який жир? (2 правильні):</h2>
+        <div class="options-grid" id="m23">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Спирт гліцерол</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Оцтова кислота</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Вищі жирні карбонові кислоти</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Амінокислоти</button>
+        </div>
+        <div class="feedback" id="f23">Пояснення: Жири — це тригліцериди, естери трьохатомного спирту гліцеролу та вищих жирних кислот.</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c23" onclick="checkMulti(23, [0,2])">Перевірити</button>
+            <button class="btn-action" id="b23" style="display:none;" onclick="go(24)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s24">
+        <span class="meta">Запитання 23 з 30 (Множинний вибір)</span>
+        <h2>Які з перелічених речовин є природними біополімерами? (2 правильні):</h2>
+        <div class="options-grid" id="m24">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Глюкоза</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Білок</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Целюлоза</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Сахароза</button>
+        </div>
+        <div class="feedback" id="f24">Пояснення: Білки (поліпептиди) та целюлоза (полісахарид) складаються з довгих ланцюгів мономерів.</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c24" onclick="checkMulti(24, [1,2])">Перевірити</button>
+            <button class="btn-action" id="b24" style="display:none;" onclick="go(25)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s25">
+        <span class="meta">Запитання 24 з 30 (Множинний вибір)</span>
+        <h2>Які функції виконують жири в організмах тварин? (2 правильні):</h2>
+        <div class="options-grid" id="m25">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Енергетичний запас</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Теплоізоляція (збереження тепла)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Збереження генетичного коду</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Дихальна функція</button>
+        </div>
+        <div class="feedback" id="f25">Пояснення: Жири — високоенергетичні сполуки, які також слугують захисним теплоізоляційним шаром під шкірою.</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c25" onclick="checkMulti(25, [0,1])">Перевірити</button>
+            <button class="btn-action" id="b25" style="display:none;" onclick="go(26)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s26">
+        <span class="meta">Запитання 25 з 30 (Множинний вибір)</span>
+        <h2>Що викликає денатурацію (руйнування структури) білка? (3 правильні):</h2>
+        <div class="options-grid" id="m26">
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Нагрівання (висока температура)</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Заморожування до 0°C</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Дія сильних кислот або лугів</button>
+            <button class="btn-opt" onclick="this.classList.toggle('selected')">Солі важких металів</button>
+        </div>
+        <div class="feedback" id="f26">Пояснення: Термічна обробка, екстремальні значення pH та важкі метали незворотно руйнують природну структуру білка.</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c26" onclick="checkMulti(26, [0,2,3])">Перевірити</button>
+            <button class="btn-action" id="b26" style="display:none;" onclick="go(27)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s27">
+        <span class="meta">Запитання 26 з 30 (Відповідність)</span>
+        <h2>Встановіть відповідність (Формула — Клас сполук):</h2>
+        <div style="margin-bottom: 20px; font-size: 16px; color: #a3e635;">Довідка: А — Алкени | Б — Спирти | В — Вуглеводи | Г — Карбонові кислоти</div>
+        <div class="match-block" id="block27">
+            <div class="match-row" data-row="1"><span>1. CH₃OH</span><div class="match-btns"><button class="m-btn" onclick="setM(this,1,'А')">А</button><button class="m-btn" onclick="setM(this,1,'Б')">Б</button><button class="m-btn" onclick="setM(this,1,'В')">В</button><button class="m-btn" onclick="setM(this,1,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="2"><span>2. CH₃COOH</span><div class="match-btns"><button class="m-btn" onclick="setM(this,2,'А')">А</button><button class="m-btn" onclick="setM(this,2,'Б')">Б</button><button class="m-btn" onclick="setM(this,2,'В')">В</button><button class="m-btn" onclick="setM(this,2,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="3"><span>3. C₂H₄</span><div class="match-btns"><button class="m-btn" onclick="setM(this,3,'А')">А</button><button class="m-btn" onclick="setM(this,3,'Б')">Б</button><button class="m-btn" onclick="setM(this,3,'В')">В</button><button class="m-btn" onclick="setM(this,3,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="4"><span>4. C₆H₁₂O₆</span><div class="match-btns"><button class="m-btn" onclick="setM(this,4,'А')">А</button><button class="m-btn" onclick="setM(this,4,'Б')">Б</button><button class="m-btn" onclick="setM(this,4,'В')">В</button><button class="m-btn" onclick="setM(this,4,'Г')">Г</button></div></div>
+        </div>
+        <div class="feedback" id="f27">Правильно: 1-Б (метанол), 2-Г (оцтова кислота), 3-А (етен), 4-В (глюкоза).</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c27" onclick="checkMatch(27, {1:'Б', 2:'Г', 3:'А', 4:'В'})">Перевірити</button>
+            <button class="btn-action" id="b27" style="display:none;" onclick="go(28)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s28">
+        <span class="meta">Запитання 27 з 30 (Відповідність)</span>
+        <h2>Встановіть відповідність (Назва — Формула):</h2>
+        <div style="margin-bottom: 20px; font-size: 16px; color: #a3e635;">Довідка: А — C₂H₂ | Б — CH₄ | В — C₂H₆ | Г — C₃H₈</div>
+        <div class="match-block" id="block28">
+            <div class="match-row" data-row="1"><span>1. Метан</span><div class="match-btns"><button class="m-btn" onclick="setM(this,1,'А')">А</button><button class="m-btn" onclick="setM(this,1,'Б')">Б</button><button class="m-btn" onclick="setM(this,1,'В')">В</button><button class="m-btn" onclick="setM(this,1,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="2"><span>2. Етан</span><div class="match-btns"><button class="m-btn" onclick="setM(this,2,'А')">А</button><button class="m-btn" onclick="setM(this,2,'Б')">Б</button><button class="m-btn" onclick="setM(this,2,'В')">В</button><button class="m-btn" onclick="setM(this,2,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="3"><span>3. Пропан</span><div class="match-btns"><button class="m-btn" onclick="setM(this,3,'А')">А</button><button class="m-btn" onclick="setM(this,3,'Б')">Б</button><button class="m-btn" onclick="setM(this,3,'В')">В</button><button class="m-btn" onclick="setM(this,3,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="4"><span>4. Ацетилен (етин)</span><div class="match-btns"><button class="m-btn" onclick="setM(this,4,'А')">А</button><button class="m-btn" onclick="setM(this,4,'Б')">Б</button><button class="m-btn" onclick="setM(this,4,'В')">В</button><button class="m-btn" onclick="setM(this,4,'Г')">Г</button></div></div>
+        </div>
+        <div class="feedback" id="f28">Правильно: 1-Б (CH4), 2-В (C2H6), 3-Г (C3H8), 4-А (C2H2).</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c28" onclick="checkMatch(28, {1:'Б', 2:'В', 3:'Г', 4:'А'})">Перевірити</button>
+            <button class="btn-action" id="b28" style="display:none;" onclick="go(29)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s29">
+        <span class="meta">Запитання 28 з 30 (Відповідність)</span>
+        <h2>Зіставте вуглевод та його групу:</h2>
+        <div style="margin-bottom: 20px; font-size: 16px; color: #a3e635;">Довідка: А — Моносахариди | Б — Дисахариди | В — Полісахариди | Г — Не належить</div>
+        <div class="match-block" id="block29">
+            <div class="match-row" data-row="1"><span>1. Глюкоза</span><div class="match-btns"><button class="m-btn" onclick="setM(this,1,'А')">А</button><button class="m-btn" onclick="setM(this,1,'Б')">Б</button><button class="m-btn" onclick="setM(this,1,'В')">В</button><button class="m-btn" onclick="setM(this,1,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="2"><span>2. Сахароза</span><div class="match-btns"><button class="m-btn" onclick="setM(this,2,'А')">А</button><button class="m-btn" onclick="setM(this,2,'Б')">Б</button><button class="m-btn" onclick="setM(this,2,'В')">В</button><button class="m-btn" onclick="setM(this,2,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="3"><span>3. Крохмаль</span><div class="match-btns"><button class="m-btn" onclick="setM(this,3,'А')">А</button><button class="m-btn" onclick="setM(this,3,'Б')">Б</button><button class="m-btn" onclick="setM(this,3,'В')">В</button><button class="m-btn" onclick="setM(this,3,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="4"><span>4. Целюлоза</span><div class="match-btns"><button class="m-btn" onclick="setM(this,4,'А')">А</button><button class="m-btn" onclick="setM(this,4,'Б')">Б</button><button class="m-btn" onclick="setM(this,4,'В')">В</button><button class="m-btn" onclick="setM(this,4,'Г')">Г</button></div></div>
+        </div>
+        <div class="feedback" id="f29">Правильно: 1-А (простий цукор), 2-Б (буряковий цукор), 3-В (запасний полімер), 4-В (структурний полімер).</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c29" onclick="checkMatch(29, {1:'А', 2:'Б', 3:'В', 4:'В'})">Перевірити</button>
+            <button class="btn-action" id="b29" style="display:none;" onclick="go(30)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s30">
+        <span class="meta">Запитання 29 з 30 (Відповідність)</span>
+        <h2>Зіставте речовину та її агрегатний стан за звичайних умов:</h2>
+        <div style="margin-bottom: 20px; font-size: 16px; color: #a3e635;">Довідка: А — Газоподібний | Б — Рідкий | В — Твердий кристалічний | Г — Твердий аморфний</div>
+        <div class="match-block" id="block30">
+            <div class="match-row" data-row="1"><span>1. Пропан</span><div class="match-btns"><button class="m-btn" onclick="setM(this,1,'А')">А</button><button class="m-btn" onclick="setM(this,1,'Б')">Б</button><button class="m-btn" onclick="setM(this,1,'В')">В</button><button class="m-btn" onclick="setM(this,1,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="2"><span>2. Етанол</span><div class="match-btns"><button class="m-btn" onclick="setM(this,2,'А')">А</button><button class="m-btn" onclick="setM(this,2,'Б')">Б</button><button class="m-btn" onclick="setM(this,2,'В')">В</button><button class="m-btn" onclick="setM(this,2,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="3"><span>3. Глюкоза</span><div class="match-btns"><button class="m-btn" onclick="setM(this,3,'А')">А</button><button class="m-btn" onclick="setM(this,3,'Б')">Б</button><button class="m-btn" onclick="setM(this,3,'В')">В</button><button class="m-btn" onclick="setM(this,3,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="4"><span>4. Оцтова кислота (чиста)</span><div class="match-btns"><button class="m-btn" onclick="setM(this,4,'А')">А</button><button class="m-btn" onclick="setM(this,4,'Б')">Б</button><button class="m-btn" onclick="setM(this,4,'В')">В</button><button class="m-btn" onclick="setM(this,4,'Г')">Г</button></div></div>
+        </div>
+        <div class="feedback" id="f30">Правильно: 1-А (нижчий алкан), 2-Б (леткий спирт), 3-В (цукор), 4-Б (рідина з різким запахом).</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c30" onclick="checkMatch(30, {1:'А', 2:'Б', 3:'В', 4:'Б'})">Перевірити</button>
+            <button class="btn-action" id="b30" style="display:none;" onclick="go(31)">Далі →</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s31">
+        <span class="meta">Запитання 30 з 30 (Відповідність)</span>
+        <h2>Зіставте речовину зі сферою її застосування:</h2>
+        <div style="margin-bottom: 20px; font-size: 16px; color: #a3e635;">Довідка: А — Паливо в побуті | Б — Консервування продуктів | В — Виробництво клею та кондитерка | Г — Виготовлення ліків</div>
+        <div class="match-block" id="block31">
+            <div class="match-row" data-row="1"><span>1. Метан</span><div class="match-btns"><button class="m-btn" onclick="setM(this,1,'А')">А</button><button class="m-btn" onclick="setM(this,1,'Б')">Б</button><button class="m-btn" onclick="setM(this,1,'В')">В</button><button class="m-btn" onclick="setM(this,1,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="2"><span>2. Етанова кислота</span><div class="match-btns"><button class="m-btn" onclick="setM(this,2,'А')">А</button><button class="m-btn" onclick="setM(this,2,'Б')">Б</button><button class="m-btn" onclick="setM(this,2,'В')">В</button><button class="m-btn" onclick="setM(this,2,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="3"><span>3. Крохмаль</span><div class="match-btns"><button class="m-btn" onclick="setM(this,3,'А')">А</button><button class="m-btn" onclick="setM(this,3,'Б')">Б</button><button class="m-btn" onclick="setM(this,3,'В')">В</button><button class="m-btn" onclick="setM(this,3,'Г')">Г</button></div></div>
+            <div class="match-row" data-row="4"><span>4. Гліцерол</span><div class="match-btns"><button class="m-btn" onclick="setM(this,4,'А')">А</button><button class="m-btn" onclick="setM(this,4,'Б')">Б</button><button class="m-btn" onclick="setM(this,4,'В')">В</button><button class="m-btn" onclick="setM(this,4,'Г')">Г</button></div></div>
+        </div>
+        <div class="feedback" id="f31">Правильно: 1-А (природний газ), 2-Б (оцет як консервант), 3-В (клейстер), 4-Г (фармація та косметика).</div>
+        <div class="nav-panel">
+            <button class="btn-action" id="c31" onclick="checkMatch(31, {1:'А', 2:'Б', 3:'В', 4:'Г'})">Завершити тест</button>
+        </div>
+    </div>
+
+    <div class="slide" id="s32">
+        <div class="center">
+            <h1 style="color: #10b981; font-size: 40px; margin-bottom: 20px;">ТЕСТ ЗАВЕРШЕНО!</h1>
+            <p style="font-size: 22px; color: #94a3b8; margin-bottom: 15px;">Ваш підсумковий бал за правильні відповіді:</p>
+            <div style="font-size: 80px; font-weight: 700; color: #38bdf8; margin-bottom: 30px;" id="score-text">0 / 30</div>
+            <button class="btn-action" onclick="location.reload()">Пройти знову</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let userScore = 0;
+    let currentSlide = 1;
+    let currentMatches = {1:null, 2:null, 3:null, 4:null};
+
+    function go(slideId) {
+        document.getElementById('s' + currentSlide).classList.remove('active');
+        document.getElementById('s' + slideId).classList.add('active');
+        currentSlide = slideId;
+        currentMatches = {1:null, 2:null, 3:null, 4:null}; // Скидання вибору для відповідностей
+    }
+
+    // Один вибір
+    function checkSingle(btn, isCorrect, slideNum, txt) {
+        let opts = btn.parentElement.querySelectorAll('.btn-opt');
+        opts.forEach(b => b.disabled = true);
+        if (isCorrect) {
+            btn.classList.add('correct');
+            userScore++;
+        } else {
+            btn.classList.add('wrong');
+            opts.forEach(b => { if(b.onclick.toString().includes('true')) b.classList.add('correct'); });
+        }
+        let f = document.getElementById('f' + slideNum);
+        f.innerHTML = txt; f.style.display = 'block';
+        document.getElementById('b' + slideNum).style.display = 'block';
+    }
+
+    // Множинний вибір
+    function checkMulti(slideNum, correctArr) {
+        let box = document.getElementById('m' + slideNum);
+        let buttons = box.querySelectorAll('.btn-opt');
+        let selected = [];
+        buttons.forEach((b, i) => {
+            b.disabled = true;
+            if(b.classList.contains('selected')) selected.push(i);
+            if(correctArr.includes(i)) b.classList.add('correct');
+            else if(b.classList.contains('selected')) b.classList.add('wrong');
+        });
+        let ok = selected.length === correctArr.length && selected.every(v => correctArr.includes(v));
+        if (ok) userScore++;
+        document.getElementById('f' + slideNum).style.display = 'block';
+        document.getElementById('c' + slideNum).style.display = 'none';
+        document.getElementById('b' + slideNum).style.display = 'block';
+    }
+
+    // Логіка кнопок у матриці відповідностей
+    function setM(btn, row, letter) {
+        let rowEl = btn.parentElement;
+        rowEl.querySelectorAll('.m-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentMatches[row] = letter;
+    }
+
+    // Перевірка матриці відповідностей
+    function checkMatch(slideNum, rightAnsMap) {
+        let block = document.getElementById('block' + slideNum);
+        let perfect = true;
+        for (let row in rightAnsMap) {
+            let target = rightAnsMap[row];
+            let userAns = currentMatches[row];
+            let rowEl = block.querySelector(`.match-row[data-row="${row}"]`);
+            rowEl.querySelectorAll('.m-btn').forEach(b => {
+                b.classList.add('disabled');
+                if (b.innerText === target) b.style.backgroundColor = '#16a34a', b.style.color = '#fff';
+                else if (b.classList.contains('active') && userAns !== target) b.style.backgroundColor = '#dc2626', b.style.color = '#fff';
+            });
+            if(userAns !== target) perfect = false;
+        }
+        if (perfect) userScore++;
+        document.getElementById('f' + slideNum).style.display = 'block';
+        document.getElementById('c' + slideNum).style.display = 'none';
+        
+        let nextBtn = document.getElementById('b' + slideNum);
+        if (nextBtn) nextBtn.style.display = 'block';
+        else {
+            // Якщо це останнє питання, одразу виводимо фінальний бал
+            document.getElementById('score-text').innerText = userScore + " / 30";
+            go(32);
+        }
+    }
+</script>
+</body>
+</html>
